@@ -1,0 +1,64 @@
+if some serive wants to access s3 since s3 is regional service and out of VPC.
+then it has 2 ways eaither go through NAT Gateway and access the s3, in that way it has
+to first go to public internet and then access s3.instead use VPC gateway endpoint
+
+NAT(cost is associated for data processing).
+
+other serviec like lambda,sqs,sns need to be accesed by app server in vpc then use VPC
+interface endpoint backed by private ink.
+
+if ur saas provider has exposed it's service over internet which may be in SaaS provider
+VPC or SaaS AWS VPC, you can access these service using Private link.
+
+***VPC peering:-
+lets say u have 100's of VPC and u want to do pperin as peering is 1-1
+then their would be 100 VPC peering connections so it would be a mess, so use Transit Gateway.
+
+connect  all VPC's transit gateway .
+u can also use transit ateway to connect with ur on-prem servies with help of VPN.
+AWS VPC via transit gateway to on-prem would incur lot of cost.
+so use ur vpc to on-prem using IPsec VPN.(u have to atach Virtual gateay to ur VPC and
+Client gateway to on-prem) and crete IPsec tunnel between these2  this is site to site VPN connection
+but the traffic still goes over internet
+so use AWS DIrect connect(layer 1 physical connectvity,upto 100GBPS) between AWS VPC and on-prem.
+
+another scenario,u need to acces app in company network u do VPN connection.
+In AWS world if you want to access app in AWS VPC , then u can also create
+Client VPN endpoint for that VPC and at ur local install VPN client and ten access the app.
+
+![before](https://github.com/testoranit/AWS-VPC/assets/124513439/d3119c10-b15f-4d07-a770-877468ca96df)
+
+
+
+
+
+In the above diagram, asssume that you have an socialnetworking site, or a video streaming, app
+the video is placed in s3 bucket and users accross the world tries to access the video
+using the application, so there would be load on ur ec2 isntance servicg the app
+and will need scaling so you would have to incur cost, also cost related to hight data transfer.
+also there would be latency. so isntaed of that expose the static content directly via S3
+for that vide and use cloudfront for better user experience so that the video would be cached to
+users' nearest edge loc.
+in route 53 for dns use cloudfront ip.
+
+![after](https://github.com/testoranit/AWS-VPC/assets/124513439/2d88f0fa-117a-486f-b9c0-9772f9905196)
+
+
+check
+regional service
+global service
+
+
+***********
+VPC CIDR
+ipv4:- 32 bit in lenght, =2 raise to 32
+6:- 128 bit in lenght=2 128,ipv6 are public and unique
+
+10.0.0.0/16 16 is prefix, max prefix in aws u can use is /28
+
+
+SG:-
+
+you can deny specific ip in SG.
+NAcl:- has allow and deny rules.(stateleass)
+outbound port:- you can use any or within ephermal port range.
