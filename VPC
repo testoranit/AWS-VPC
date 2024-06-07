@@ -62,3 +62,38 @@ SG:-
 you can deny specific ip in SG.
 NAcl:- has allow and deny rules.(stateleass)
 outbound port:- you can use any or within ephermal port range.
+
+***VPC Private Connectivity Options:-
+1)VPC Endpoints and Private Links
+2)VPC Peering
+3)Transit Gateway
+4)Site-2-Site VPN.
+5)Client VPN
+6)Direct Connect
+
+***Instead of NAT gateay u can create a NAT instance as well which acts as a NAT gateay but not recommended for prod env.
+SO ur EC2 NAT instances saves cost, but u need t use NAT AMI and disbale src dest check.
+
+VPC Peering
+@![VPC Peering](https://github.com/testoranit/AWS-VPC/assets/124513439/a975d4d9-02fe-4dd1-9964-f2c3b5975ab2)
+
+VP peering done, then u need to updTE THE ROUTE TABLES ACCORDINGLY.
+
+******VPC peering limitations
+
+benefits:-
+enables priv commbetween vpc's
+no need to have IGW or VPn connection between VPC's
+Saves VPN connection cost(0.05$/hr).u only pay for in/out data transfer charges of 0.01/GB
+
+limitations:-
+VPC Peerin can be used only for direct connumunication between resources in the VPC's
+but VPC peering doesn't helped the peered VPC to communicate to Internet via VPN"S,gateways,endpoints.
+
+
+
+
+****************VPC Endpoints (traffic witihn vpc)
+
+1)Gateway ENdpoint(free):- for s3 and dynamo db.
+2)Interface endpoint via private link(has cost):- for other aws services
