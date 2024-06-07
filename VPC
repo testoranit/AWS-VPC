@@ -97,3 +97,5 @@ but VPC peering doesn't helped the peered VPC to communicate to Internet via VPN
 
 1)Gateway ENdpoint(free):- for s3 and dynamo db.
 2)Interface endpoint via private link(has cost):- for other aws services
+
+
