@@ -125,6 +125,15 @@ You need to add manul routes to the respective VPC's for the route to transit Ga
 needs to follow the attachement to Transit gateway.
 when attaching the VPC to transit gateway choose the subnets accordingly.
 
+**Now in this cenario,u can reach to any vpc's, but incase if u want to restrict trafic between certain VPC's here
+u can use VRF(Virtual Route Table).
+SO while creating the transit Gateway don't use default Route table
+disable default route table association & default route table propagation.
+create VPC attachements to Transit gatweway.
+create default  transit gateway route table and attach it to specific vpc's
+go to each route table and create propogations where u can specify route rules.
+and now got to the routle table of each vpc and add route to transit gateway.
+
 
 
 
