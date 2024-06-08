@@ -90,12 +90,41 @@ limitations:-
 VPC Peerin can be used only for direct connumunication between resources in the VPC's
 but VPC peering doesn't helped the peered VPC to communicate to Internet via VPN"S,gateways,endpoints.
 
-
+max 125 vpc peering connections to 1 vpc.
 
 
 ****************VPC Endpoints (traffic witihn vpc)
 
 1)Gateway ENdpoint(free):- for s3 and dynamo db.
 2)Interface endpoint via private link(has cost):- for other aws services
+
+Gateway endpoint practical.
+file:///E:/AWS_VPC_Net/AWS+VPC+and+Networking+course+by+Chetan+Agrawal+-+FULL+-2.0.pdf
+from page 169.
+
+
+**VPC Private link for SaaS applications.(access other services in aws)
+eg:- if u have 2 vpc's where ec2 from VPC A wants to access an application from VPC B in private insance..you can do it through vpc peering.
+but this is not recommended way of doing it instead u can use VPC Interface endpoint.(since u may have many customers accesing this saas app)
+and in that case vpc peering may not help since only 125 vpc peerin connection allowed to 1 vpc).
+VPC Private link only supports Network LB or Gateway LB.
+
+
+************************Intoduction to Hybrid networking & VPN.
+1)Site to Site VPN.(corporate dc dc to AWS)(Is sec tunnels 2 tunnels for HA)
+2)AWS Client VPN.(client working from home to AWS)
+3)AWS Direct Connect.
+
+
+******AWS Transit Gateway
+file:///E:/AWS_VPC_Net/AWS+VPC+and+Networking+course+by+Chetan+Agrawal+-+FULL+-2.0.pdf
+PAge 207
+
+Transit gateway has it's own route table which has routes for the attached VPC's
+You need to add manul routes to the respective VPC's for the route to transit Gateway so that it knows it
+needs to follow the attachement to Transit gateway.
+when attaching the VPC to transit gateway choose the subnets accordingly.
+
+
 
 
