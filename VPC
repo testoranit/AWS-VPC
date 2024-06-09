@@ -188,7 +188,8 @@ supports path based and URL host based.
 Listerners when recieve the traffic can redirect the request to the listener rules defined..
 eg u have a page in english & user request english in their url path go to english page(path based routing)
 u have a page in french  & user request french in their url path go to french page.
-
+listeners then send traffic to TG(also do HC's)->Targets.
+listeners  rule can also decide on routing policy like weighted routing policy(used for blue green deployment).
 ![ALB](https://github.com/testoranit/AWS-VPC/assets/124513439/4391b066-5c87-4d9d-b54f-f65a19997a92)
 
 TG group distributes traffic Request gors in round robin(by default)
@@ -213,12 +214,17 @@ path based routing
 same but mention path like /asia-->TG /eurpe-->Target
 confirugre webser accoringly saying /asia in website index.html same do for europe path
 .
+**********
+Route 53-->ALB-->TG-->TG's
+ALB allows SSL terimnation hence u
+can implelemtn listener rule for https and add the certificate from ACM.
+allow port https 443 in security group of LB.
 
 
 
 
-listeners then send traffic to TG(also do HC's)->Targets.
-listeners  rule can also decide on routing policy like weighted routing policy(used for blue green deployment).
+
+
 
 
 
