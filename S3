@@ -1,0 +1,37 @@
+S3
+has 
+Tiered storage classes:- 7
+Lifecycle policies
+object versioning:-Multiple version od the same object could be stored,accesed or restored as needed.
+
+
+Long term storage of data but rarely reads files;_
+Need to store larg video files and quickly distribute them to customers when streaming:-
+eg a db needs immediate access to re-create iles:-
+
+7 storage classes:
+1)S3 Standard
+2)S3 Standard-IA
+3)s3 Intelligient-Trainin
+4)s3 1-Zone -IA
+5)s3- Glacier Instant reteival
+6)s3- Glacier Flexible retrival
+7)s3-glacier deep archival
+
+
+S3 costs
+The amount of data u store
+the storage class u choose
+the region where u create te bucket.
+
+
+Understand requess and data reteival fees
+put charges and get charges apply to s3
+use AWS calculator
+if u transfer data from internet to S3 then no charge
+if u want to transer data from s3 to internet, then first 100GB free of cost, then charges aaply.
+
+
+Once u crete bucket u can't change the bucket name or can't change the region.
+
+
