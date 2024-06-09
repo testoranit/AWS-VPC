@@ -134,6 +134,93 @@ create default  transit gateway route table and attach it to specific vpc's
 go to each route table and create propogations where u can specify route rules.
 and now got to the routle table of each vpc and add route to transit gateway.
 
+*************
+Hoting website on S3 with custom domain name.
+Once u have got the domain from route 53 registrar and created a Public hosted zone.
+create S3 bucket with static website hosting enabled, uncheck public access,and allow bucket policy.
+upload static content to it. Hit the S3 endpoint u see the website.
+Note:- create the bucket as www.domaniname.click
+
+create record in Public hosted zone. A record name www    .domainname.click
+alias enabled..choose S3 endpoint, region and then the bucket endpoint.
+
+****************************
+At this Moment ur website is not secure,,so u need to put some tls certficate using cloudfront.
+Cloudfront also gives caching mechanism and serves as edge loc for better user experience.
+1)create an Certficate from ACM(or BYOC)
+2)For geting the certificate u need to prove that u own the domain name, hence u have certifcqtion validation process.
+3)Deploy certificate on Cloudfront distribution and associate it with the distribution.
+4)Now ROute 53 needs to point to Cloudfront instead of S3 since it;s the first entrypoint for website
+5)Pre-reg is certficate for cloudfront neds to be created in N-virginia region.
+6)request a certficate (www.domainname.click)
+7)In the above process while creating certficate choose DNS Validation, under the hood it creates some records in Route 53
+and then validates the records so issue the cerficatre.
+8)Once u click on create in above step, certifcate status is pending,click on the hyperlink and create route53 records.
+9)Now wait until the Domain verfication check is done.
+10)Once the certification is issued create cloudfront distribution for s3
+11)Create distribution (s3 endpoint distribution)( u say to cloudfront where is ur origin(original content)
+12)redirect http to Https
+13)under settings-->Custom SSL (choose custom domain name) also add cname record here www.domainname.click
+14)create distribution done.
+15)Next link Route53 t cloudfront distribution. create A record alias to cloufront distribution.
+16)Now eg:- if people from India or US access this website it will be cached to the nearest edge loc..cloudfront does it in the background.
+
+
+
+****************LB
+1)ALB:- operates at Layer 7 works with HTTP/HTTPS,WEbsocket,HTTP/2,and gRPC protocls
+when u use HTTP/HTTPS(reques-response based protocol), it means every time the client makes a request it and server sends the data back and then clinet closes the connection.
+this is not very efficient where u need continuous comunication between client and server.
+So u can use Websocket(upgraded version of HTTP/HTTPS) client establishes a permanent connection with the server and the the request ben-client ansd server then flows.
+used for real time updates for application.
+HTTP2:- like hhtp but client can send multiple request and get multiple response.
+grPC:- designed for streamin use cases.
+
+it supports multiple listeners eg:- http,https,custom, listenes to client request.
+u can do loadbalncing to multiple Target groups.(tg's could also be on-prem where can send to on-prem servers where,
+the on-prem servers are connected to ur vpc using direct connect or VPN.
+Suports returing cusom respnse:- when page doesn't exisit.
+also supports redirecting from http to https
+supports SSL/TLS Termination using ACM Certificate.
+Supports Authentication using AWS COgnito and Federation(AD,OIDC,SAML)
+supports path based and URL host based.
+
+Listerners when recieve the traffic can redirect the request to the listener rules defined..
+eg u have a page in english & user request english in their url path go to english page(path based routing)
+u have a page in french  & user request french in their url path go to french page.
+
+![ALB](https://github.com/testoranit/AWS-VPC/assets/124513439/4391b066-5c87-4d9d-b54f-f65a19997a92)
+
+TG group distributes traffic Request gors in round robin(by default)
+u can also have least outsdanding(send the traffic to instance where there is less traffic.
+Sticky sessions(TG will send request to a a particlur target for some particular time).
+
+
+*******
+ROute53-->LB-->TG-->Targets
+eg:- if ur doing an ecomm transaction,if LB is doing round robin ten half of the time request goes to 1 server and half of the times to other server.
+in that case transaction would not be completed. so uneed that trasaction to stay on same server for defined period of time.
+when client hits LB then eg for 30 secs the request goes to 1 server.
+go to TG's-->Edit attributes-->Sticky session-->choose lB grenarated cookie time 30 secs
+
+
+**ALB host based routing.
+Route53-->LB->TG1(asia) TG2(Europe)
+go to LB and add rule saying if user hits asia.domainname.click send traffic to Tg1 else to TG2.
+got to Route 53 add entries for asia.domainname.click to LB and add entry for europe.domainname.click to same Lb.
+
+path based routing
+same but mention path like /asia-->TG /eurpe-->Target
+confirugre webser accoringly saying /asia in website index.html same do for europe path
+.
+
+
+
+
+listeners then send traffic to TG(also do HC's)->Targets.
+listeners  rule can also decide on routing policy like weighted routing policy(used for blue green deployment).
+
+
 
 
 
