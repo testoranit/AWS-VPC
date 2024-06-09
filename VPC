@@ -220,7 +220,7 @@ ALB allows SSL terimnation hence u
 can implelemtn listener rule for https and add the certificate from ACM.
 allow port https 443 in security group of LB.
 
-
+***completed**
 
 
 
