@@ -33,5 +33,94 @@ if u want to transer data from s3 to internet, then first 100GB free of cost, th
 
 
 Once u crete bucket u can't change the bucket name or can't change the region.
+empty bucket then all objects and versions are gone..u can't restore it.
+
+S3 now has strong consitencey:_ once u write and object to s3 u will immediately see the reflected changes while reading the object.
+Public Bucket:- objects are not accesed overed internet
+Private Bucket:- objects  could be accesed by AWS services.
+Multi part upload:- for faster uploading restart the failed upload
+Max file u can upload via console is 160 GB, if >160 GB then use AWS CLI,AWS SDK or AMAZON S3 Rest API
+from local u can also do aws s3 sync . bucketname(it will snc all the files from local dir to s3 bucket which were not uploaded earlier).
+
+Using multi part  upload u can upload multiple files  upto 5TB in size.
+Single file with normal upload=5gb ins size
+
+copy file from s3 to local.
+aws s3 cp bucketname . --recursive --exlude "*" --include "*.png"
+
+Storage lifecyclye rules:- to delete objects,to move objects to other class.
+THrough life cycle rules u can only  move objects to the below storage classes but not to higher storage classes.
+But u can do it manuaaly through console.
+
+
+when u have bucket versiioning enabled u upload an object ver1,u upload the same object ver 2,  now ver 2 is the current version.
+u delete the object it adds delete marker and creates version 3. now it seems the object is deleted but u can access the older versions of the object.
+
+demo for lifecylce rules;_
+got to bucket-->Management--LC rule:-
+You can adds tags to buket and also tags to objects within the  bucket now if u want to limit the access to the certain objects within this bucket
+then u can do it via these object tags. create IAM policy and mention that objects within the bucket with this tag , add this policy to the user.
+
+
+Bucket properties:-
+1)Bucker verioning
+2)Tags
+3)default encryption
+4)Server Access logging
+5)Static webite hosting
+6)Requester pays
+7)Transfer accleration
+8)Event Notifications
+
+**
+Requester Pays
+owner can shift the data transfer cost and access acost the requster,bucket owner will only pay for storing of the data.
+***************8
+Secure Access to ur data
+1)Apply permissions
+2)object and bucket settings
+3)access control
+4)Policy Condns
+
+Protect data
+1)Encrypting data:- data encrypted at rest and in transit, in transit when u use client side encryption
+and use some secure channel like VPN(https or TLS) to transfer data securely when it lands at S3(at rest) use server sided encryption.
+SSE-s3,SSE-CMK, SSE-KMS
+
+In transit encryption:- u want to upload data ,so s3 accepts https and hhtp connections by default.
+but u can create a policy where u block http traffic, so data flows throw hhtps and in- transit replication is applied.
+
+2)data recovery
+3)replication:- asyc copy of objects from 1 bucket to another.versioning must be enabled on both src and dest.
+birectional replication is possible.
+delete markers are not replicated.
+existing data before replication are not replicated.objects in glacier tier will not be replicated.
+
+![Limitations on S3 data replication](https://github.com/testoranit/AWS-VPC/assets/124513439/b89c63e4-6698-43a2-bc30-d008b509337e)
+
+s3 batch operations:- data which is not copied will be copied once when theis runs.
+
+4)versioning:-
+once versioing enabled u can't disabled it.
+
+5)Object lock.
+IN CLoud Security Model is ahared underlying things AZ,Infra is cloud respnsiblity data, firewall,IAM is customer respo
+![S3](https://github.com/testoranit/AWS-VPC/assets/124513439/b727ba1d-0d42-43cf-99b1-9cb7cc634503)
+
+U can use AWS policy generator tool:- to write policies for you.
+U can use IAM policy or Buckey policy or combo of both to access objects in S3.
+U cn also encrypt data at rest in s3 and add the action to decrypt the object in s3 to IAM policy when IAM user access the object.
+***********
+S3 Presigned URL's:-
+user wants to get access to s3, then he can get access only for sometime until the url expires.
+who can creae presgned url:-
+IAM user:- URL upto 7 days.
+AWS STS:- url valid upto 36 hrs.
+Instance profile:- URL valid upto 6 hrs.
+
+eg_;- uhave blocked all public access to s3 and haven't added any bucke policy and still u want to get access to an object n s3
+u can use presigned URL's
+
+***Protect DTA in S3.
 
 
