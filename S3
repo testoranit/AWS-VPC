@@ -122,5 +122,39 @@ eg_;- uhave blocked all public access to s3 and haven't added any bucke policy a
 u can use presigned URL's
 
 ***Protect DTA in S3.
+************cLOUDFRONT cdn)
+oac:- ONLY users can access s3 through cloudfront distsributions and not directly. access s3.
+under the hood u sign the the request and send it to s3 and s3 verifies it.
+also allow bucket polcy to access only via cdn distibution.
+**********************
+AWS Native tools for Monitoring and alerting of S3
+
+1)Storage Lens not free:-how ur data is stored and,easily identify cost reduction opportunities.,how ur data is accsed based on rules.
+2)Server access logging:-detail records for any requests madde to bucket used for security and auditing purpose
+3)Cost and Usage Report.
+4)s3 Event Notifications:- either create sns,event,trigger lambda
+5)Amazon S3 inventory:- details list of objects and their metadata.( u can identify the infrequqent access to objects) u get the data into a csv and then anaylyze it using athena
+6)Cloudwatch
+7)Aws config:- used to baktrack what went wrong , if smething goes down for eg
+8)CloudTrail event logging:-
+
+
+***********8S3 performance
+Thin about
+DAata locality:-u can do cross region replication if the data is accesed via other regions or use cloudefront
+
+use Parallelisation for better read/write perf:-
+if u read from a bucket u can read at max rate:- 5500 reads/sec, if u reuire more then that use parallisation.
+
+think about scalaing ur app for higher trhougput:-eg:- app on ec2 can read with only 100GBps speed, but if u scale ur applications then each application can read with 100gbps
+
+**S3 Transfer acceleration ( for wtites to s3)
+using edge loc + transfer accelartion(so that users can write and upload the data faster)
+u get an endpoint when u enable transfer acceleration(s3-accelerate)
+
+*********Cost Management
+*****Access points
+u enable access points to have users access data from s3 via access points.
+access points could be managed by access policies.
 
 
